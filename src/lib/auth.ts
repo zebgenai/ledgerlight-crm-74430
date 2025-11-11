@@ -2,12 +2,13 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type UserRole = "admin" | "manager";
 
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (email: string, password: string, metadata?: { name: string; username: string }) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${window.location.origin}/`,
+      data: metadata,
     },
   });
   return { data, error };

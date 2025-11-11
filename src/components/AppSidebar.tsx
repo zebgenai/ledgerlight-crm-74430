@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut } from "lucide-react";
+import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut, UserCog } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -27,6 +27,10 @@ const menuItems = [
   { title: "Reports", url: "/reports", icon: FileText },
 ];
 
+const adminOnlyItems = [
+  { title: "User Management", url: "/users", icon: UserCog },
+];
+
 export function AppSidebar() {
   const { state } = useSidebar();
   const navigate = useNavigate();
@@ -50,7 +54,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-primary">
+          <SidebarGroupLabel className="text-sidebar-primary font-semibold">
             {state === "collapsed" ? "MM" : "Money Manager"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -73,6 +77,32 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {role === "admin" && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-xs">
+              {state === "expanded" && "Admin"}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminOnlyItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink 
+                        to={item.url}
+                        className="hover:bg-sidebar-accent transition-colors"
+                        activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        {state === "expanded" && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       
       <SidebarFooter>

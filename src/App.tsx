@@ -17,6 +17,8 @@ import Reports from "./pages/Reports";
 import UserManagement from "./pages/UserManagement";
 import NotFound from "./pages/NotFound";
 
+import Profile from "./pages/Profile";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -75,6 +77,13 @@ const App = () => (
                 <ProtectedRoute>
                   <Layout>
                     <UserManagement />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Profile />
                   </Layout>
                 </ProtectedRoute>
               } />

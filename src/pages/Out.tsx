@@ -7,8 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, FileDown } from "lucide-react";
 import { z } from "zod";
+import { exportToCSV, exportToExcel } from "@/lib/exportUtils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const outSchema = z.object({
   amount: z.number().positive("Amount must be positive"),
@@ -115,6 +117,24 @@ export default function Out() {
   const canEdit = role === "admin";
   const canDelete = role === "admin";
 
+  const handleExport = (format: 'csv' | 'excel') => {
+    const exportData = records.map(record => ({
+      Date: new Date(record.date).toLocaleDateString(),
+      Amount: Number(record.amount).toFixed(2),
+      Reason: record.reason,
+    }));
+
+    const filename = `expenses-${new Date().toISOString().split('T')[0]}`;
+    
+    if (format === 'csv') {
+      exportToCSV(exportData, filename);
+    } else {
+      exportToExcel(exportData, filename, 'Expenses');
+    }
+
+    toast({ title: "Success", description: `Data exported as ${format.toUpperCase()}` });
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -122,55 +142,73 @@ export default function Out() {
           <h1 className="text-3xl font-bold">Expenses</h1>
           <p className="text-muted-foreground">Track your expenses</p>
         </div>
-        <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Expense
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{editingId ? "Edit" : "Add"} Expense</DialogTitle>
-              <DialogDescription>Enter the expense details below</DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="amount">Amount</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  step="0.01"
-                  value={formData.amount}
-                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="reason">Reason</Label>
-                <Input
-                  id="reason"
-                  value={formData.reason}
-                  onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="date">Date</Label>
-                <Input
-                  id="date"
-                  type="date"
-                  value={formData.date}
-                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full">
-                {editingId ? "Update" : "Add"} Expense
+        <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <FileDown className="h-4 w-4 mr-2" />
+                Export
               </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleExport('csv')}>
+                Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleExport('excel')}>
+                Export as Excel
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Expense
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{editingId ? "Edit" : "Add"} Expense</DialogTitle>
+                <DialogDescription>Enter the expense details below</DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="amount">Amount</Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    step="0.01"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="reason">Reason</Label>
+                  <Input
+                    id="reason"
+                    value={formData.reason}
+                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="date">Date</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full">
+                  {editingId ? "Update" : "Add"} Expense
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       <div className="rounded-lg border">

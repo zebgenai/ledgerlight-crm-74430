@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut, UserCog } from "lucide-react";
+import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut, UserCog, User } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -112,6 +112,15 @@ export function AppSidebar() {
               {state === "expanded" && `Role: ${role}`}
             </div>
           )}
+          <Button
+            onClick={() => navigate('/profile')}
+            variant="ghost"
+            size={state === "collapsed" ? "icon" : "default"}
+            className="w-full justify-start text-muted-foreground hover:text-foreground"
+          >
+            <User className="h-4 w-4" />
+            {state === "expanded" && <span className="ml-2">Profile</span>}
+          </Button>
           <Button
             onClick={handleSignOut}
             variant="ghost"

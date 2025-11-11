@@ -225,7 +225,7 @@ export default function Out() {
             {records.map((record) => (
               <TableRow key={record.id}>
                 <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
-                <TableCell className="text-destructive font-medium">-${Number(record.amount).toFixed(2)}</TableCell>
+                <TableCell className="text-destructive font-medium">-PKR {Number(record.amount).toFixed(2)}</TableCell>
                 <TableCell>{record.reason}</TableCell>
                 {(canEdit || canDelete) && (
                   <TableCell className="text-right space-x-2">

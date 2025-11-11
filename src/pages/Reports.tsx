@@ -106,7 +106,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-success">
-              ${loading ? "..." : stats.currentMoney.toFixed(2)}
+              PKR {loading ? "..." : stats.currentMoney.toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               For selected period
@@ -120,7 +120,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">
-              ${loading ? "..." : stats.totalIn.toFixed(2)}
+              PKR {loading ? "..." : stats.totalIn.toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Total money received
@@ -134,7 +134,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-destructive">
-              ${loading ? "..." : stats.totalOut.toFixed(2)}
+              PKR {loading ? "..." : stats.totalOut.toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Total money spent
@@ -148,7 +148,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-warning">
-              ${loading ? "..." : stats.toGive.toFixed(2)}
+              PKR {loading ? "..." : stats.toGive.toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Unpaid obligations
@@ -162,7 +162,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-destructive">
-              ${loading ? "..." : stats.debt.toFixed(2)}
+              PKR {loading ? "..." : stats.debt.toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Not yet returned
@@ -178,7 +178,7 @@ export default function Reports() {
             <div className={`text-3xl font-bold ${
               stats.currentMoney + stats.debt - stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              ${loading ? "..." : (stats.currentMoney + stats.debt - stats.toGive).toFixed(2)}
+              PKR {loading ? "..." : (stats.currentMoney + stats.debt - stats.toGive).toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Current + Debt - To Give

@@ -268,7 +268,7 @@ export default function Debt() {
               <TableRow key={record.id} className={record.status === "Not Returned" ? "bg-destructive/5" : ""}>
                 <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
                 <TableCell>{record.person_name}</TableCell>
-                <TableCell className="font-medium">${Number(record.amount).toFixed(2)}</TableCell>
+                <TableCell className="font-medium">PKR {Number(record.amount).toFixed(2)}</TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                     record.status === "Not Returned" ? "bg-destructive/20 text-destructive" : "bg-success/20 text-success"

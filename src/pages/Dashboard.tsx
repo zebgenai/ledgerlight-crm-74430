@@ -98,7 +98,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${loading ? "..." : stats.totalMoney.toFixed(2)}
+              PKR {loading ? "..." : stats.totalMoney.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               Income - Expenses for selected period
@@ -113,7 +113,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${loading ? "..." : stats.toGive.toFixed(2)}
+              PKR {loading ? "..." : stats.toGive.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               Total unpaid amount
@@ -128,7 +128,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${loading ? "..." : stats.debt.toFixed(2)}
+              PKR {loading ? "..." : stats.debt.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               Total not returned

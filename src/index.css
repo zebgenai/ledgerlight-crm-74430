@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -19,6 +19,7 @@ All colors MUST be HSL.
 
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 91% 70%;
 
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
@@ -58,6 +59,14 @@ All colors MUST be HSL.
     --chart-3: 0 72% 51%;
     --chart-4: 38 92% 50%;
     --chart-5: 280 100% 70%;
+
+    /* Professional lighting effects */
+    --gradient-shine: linear-gradient(135deg, hsl(217 91% 60% / 0.1), hsl(217 91% 70% / 0.05));
+    --shadow-sm: 0 1px 2px 0 hsl(217 91% 60% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(217 91% 60% / 0.1), 0 2px 4px -2px hsl(217 91% 60% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(217 91% 60% / 0.1), 0 4px 6px -4px hsl(217 91% 60% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(217 91% 60% / 0.15), 0 8px 10px -6px hsl(217 91% 60% / 0.1);
+    --glow-primary: 0 0 20px hsl(217 91% 60% / 0.3);
   }
 
   .dark {
@@ -72,6 +81,7 @@ All colors MUST be HSL.
 
     --primary: 217 91% 60%;
     --primary-foreground: 222 47% 11%;
+    --primary-glow: 217 91% 70%;
 
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -103,6 +113,14 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 33% 24%;
     --sidebar-ring: 217 91% 60%;
+
+    /* Professional lighting effects for dark mode */
+    --gradient-shine: linear-gradient(135deg, hsl(217 91% 60% / 0.15), hsl(217 91% 70% / 0.08));
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -2px hsl(217 91% 60% / 0.15);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.5), 0 4px 6px -4px hsl(217 91% 60% / 0.2);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.6), 0 8px 10px -6px hsl(217 91% 60% / 0.25);
+    --glow-primary: 0 0 30px hsl(217 91% 60% / 0.4);
   }
 }
 
@@ -114,9 +132,33 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background: linear-gradient(to bottom, hsl(var(--background)), hsl(var(--muted) / 0.3));
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold;
+  }
+}
+
+@layer utilities {
+  .shadow-elegant {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .shadow-elegant-lg {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .shadow-elegant-xl {
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+  
+  .gradient-shine {
+    background: var(--gradient-shine);
   }
 }

@@ -5,13 +5,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { User, Mail, AtSign } from "lucide-react";
+import { User, Mail, AtSign, Shield } from "lucide-react";
 
 export default function Profile() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [roles, setRoles] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -19,6 +21,7 @@ export default function Profile() {
 
   useEffect(() => {
     loadProfile();
+    loadRoles();
   }, [user]);
 
   const loadProfile = async () => {
@@ -44,6 +47,24 @@ export default function Profile() {
         name: data.name || "",
         username: data.username || "",
       });
+    }
+  };
+
+  const loadRoles = async () => {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Failed to load roles:", error);
+      return;
+    }
+
+    if (data) {
+      setRoles(data.map(r => r.role));
     }
   };
 
@@ -141,6 +162,33 @@ export default function Profile() {
               {loading ? "Updating..." : "Update Profile"}
             </Button>
           </form>
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-elegant">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="w-5 h-5" />
+            Your Roles
+          </CardTitle>
+          <CardDescription>Permissions assigned to your account</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {roles.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {roles.map((role) => (
+                <Badge 
+                  key={role} 
+                  variant={role === 'admin' ? 'default' : 'secondary'}
+                  className="text-sm px-3 py-1 capitalize"
+                >
+                  {role}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground text-sm">No roles assigned</p>
+          )}
         </CardContent>
       </Card>
     </div>

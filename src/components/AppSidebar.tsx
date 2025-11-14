@@ -57,8 +57,12 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center gap-4 py-6 mb-2">
             <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 shadow-elegant-lg p-0.5">
-              <div className="w-full h-full rounded-full bg-background flex items-center justify-center p-1.5">
-                <img src={logo} alt="Money Manager" className="w-full h-full object-contain" />
+              <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
+                <img 
+                  src={logo} 
+                  alt="Money Manager" 
+                  className="w-full h-full object-cover scale-110" 
+                />
               </div>
             </div>
             {state === "expanded" && (

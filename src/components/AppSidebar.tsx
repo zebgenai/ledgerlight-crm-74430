@@ -56,16 +56,16 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center gap-3 py-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 shadow-elegant p-1.5">
-              <img src={logo} alt="LedgerLight" className="w-full h-full object-contain" />
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl shadow-elegant">
+              <img src={logo} alt="Money Manager" className="w-full h-full object-contain" />
             </div>
             {state === "expanded" && (
               <div className="flex flex-col">
-                <span className="text-lg font-bold bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-transparent">
-                  LedgerLight
+                <span className="text-lg font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                  Money Manager
                 </span>
                 <span className="text-[10px] text-muted-foreground font-normal tracking-wide">
-                  Financial CRM
+                  Wallet CRM
                 </span>
               </div>
             )}

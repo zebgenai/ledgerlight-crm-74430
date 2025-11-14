@@ -55,16 +55,18 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="flex items-center gap-3 py-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl shadow-elegant">
-              <img src={logo} alt="Money Manager" className="w-full h-full object-contain" />
+          <SidebarGroupLabel className="flex items-center gap-4 py-6 mb-2">
+            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 shadow-elegant-lg p-0.5">
+              <div className="w-full h-full rounded-full bg-background flex items-center justify-center p-1.5">
+                <img src={logo} alt="Money Manager" className="w-full h-full object-contain" />
+              </div>
             </div>
             {state === "expanded" && (
               <div className="flex flex-col">
-                <span className="text-lg font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   Money Manager
                 </span>
-                <span className="text-[10px] text-muted-foreground font-normal tracking-wide">
+                <span className="text-[10px] text-muted-foreground font-medium tracking-wider uppercase">
                   Wallet CRM
                 </span>
               </div>

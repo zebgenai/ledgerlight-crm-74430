@@ -32,7 +32,7 @@ export const getUserRole = async (userId: string): Promise<UserRole | null> => {
     .from("user_roles")
     .select("role")
     .eq("user_id", userId)
-    .single();
+    .maybeSingle();
 
   if (error || !data) return null;
   return data.role as UserRole;

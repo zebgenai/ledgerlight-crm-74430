@@ -17,6 +17,7 @@ import { signOut } from "@/lib/auth";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import logo from "@/assets/logo.png";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -54,8 +55,20 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-primary font-semibold">
-            {state === "collapsed" ? "MM" : "Money Manager"}
+          <SidebarGroupLabel className="flex items-center gap-3 py-4">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 shadow-elegant p-1.5">
+              <img src={logo} alt="LedgerLight" className="w-full h-full object-contain" />
+            </div>
+            {state === "expanded" && (
+              <div className="flex flex-col">
+                <span className="text-lg font-bold bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-transparent">
+                  LedgerLight
+                </span>
+                <span className="text-[10px] text-muted-foreground font-normal tracking-wide">
+                  Financial CRM
+                </span>
+              </div>
+            )}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

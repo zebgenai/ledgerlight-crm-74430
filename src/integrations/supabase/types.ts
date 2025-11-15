@@ -42,15 +42,7 @@ export type Database = {
           person_name?: string
           status?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "debt_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       in: {
         Row: {
@@ -77,15 +69,7 @@ export type Database = {
           id?: string
           reason?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "in_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       out: {
         Row: {
@@ -112,15 +96,7 @@ export type Database = {
           id?: string
           reason?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "out_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -174,15 +150,7 @@ export type Database = {
           person_name?: string
           status?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "to_give_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       user_roles: {
         Row: {

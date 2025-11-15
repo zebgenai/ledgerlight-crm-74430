@@ -22,7 +22,7 @@ export default function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const { role } = useAuth();
+  const { role, loading: authLoading } = useAuth();
 
   useEffect(() => {
     if (role === "admin") {
@@ -124,6 +124,14 @@ export default function UserManagement() {
       }
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   if (role !== "admin") {
     return <Navigate to="/" replace />;

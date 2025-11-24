@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Layout } from "@/components/Layout";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import In from "./pages/In";
@@ -16,20 +17,28 @@ import Debt from "./pages/Debt";
 import Reports from "./pages/Reports";
 import UserManagement from "./pages/UserManagement";
 import NotFound from "./pages/NotFound";
-
 import Profile from "./pages/Profile";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="light">
-      <TooltipProvider>
-        <AuthProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="light">
+        <TooltipProvider>
+          <AuthProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/" element={
                 <ProtectedRoute>
@@ -89,12 +98,13 @@ const App = () => (
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

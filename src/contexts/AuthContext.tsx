@@ -32,9 +32,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          setTimeout(() => {
-            getUserRole(session.user.id).then(setRole);
-          }, 0);
+          getUserRole(session.user.id)
+            .then(setRole)
+            .catch((error) => {
+              console.error("Error getting user role:", error);
+              setRole(null);
+            });
         } else {
           setRole(null);
         }
@@ -43,16 +46,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        getUserRole(session.user.id).then(setRole);
-      }
-      
-      setLoading(false);
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session }, error }) => {
+        if (error) {
+          console.error("Error getting session:", error);
+        }
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          getUserRole(session.user.id)
+            .then(setRole)
+            .catch((error) => {
+              console.error("Error getting user role:", error);
+              setRole(null);
+            });
+        }
+        
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error in getSession:", error);
+        setSession(null);
+        setUser(null);
+        setRole(null);
+        setLoading(false);
+      });
 
     return () => subscription.unsubscribe();
   }, []);

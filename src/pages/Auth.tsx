@@ -105,16 +105,16 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <Card className="w-full max-w-md shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-3 md:p-4">
+      <Card className="w-full max-w-md shadow-xl animate-scale-in">
         <CardHeader className="space-y-1 text-center pb-4">
           <div className="mx-auto mb-2 p-3 rounded-full bg-primary/10 w-fit">
-            <Wallet className="h-8 w-8 text-primary" />
+            <Wallet className="h-7 w-7 md:h-8 md:w-8 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">
+          <CardTitle className="text-xl md:text-2xl font-bold">
             {isSignUp ? "Create Account" : "Welcome Back"}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm">
             {isSignUp 
               ? "Enter your details to get started" 
               : "Sign in to manage your finances"}
@@ -125,22 +125,24 @@ export default function Auth() {
             {isSignUp && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name" className="text-base">Full Name</Label>
                   <Input
                     id="name"
                     type="text"
                     placeholder="John Doe"
+                    className="h-11 text-base"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username" className="text-base">Username</Label>
                   <Input
                     id="username"
                     type="text"
                     placeholder="johndoe"
+                    className="h-11 text-base"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     required
@@ -149,28 +151,30 @@ export default function Auth() {
               </>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-base">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="name@example.com"
+                className="h-11 text-base"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-base">Password</Label>
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
+                className="h-11 text-base"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full h-11 text-base" disabled={loading}>
               {loading ? "Loading..." : isSignUp ? "Create Account" : "Sign In"}
             </Button>
           </form>
@@ -178,7 +182,7 @@ export default function Auth() {
             {isSignUp ? "Already have an account? " : "Don't have an account? "}
             <Button
               variant="link"
-              className="p-0 font-semibold"
+              className="p-0 font-semibold text-base"
               onClick={() => {
                 setIsSignUp(!isSignUp);
                 setFormData({ name: "", username: "", email: "", password: "" });

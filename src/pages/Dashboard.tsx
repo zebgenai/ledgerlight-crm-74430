@@ -56,18 +56,18 @@ export default function Dashboard() {
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Overview of your finances</p>
+          <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Overview of your finances</p>
         </div>
         <div className="flex gap-2">
           <Select value={selectedMonth.toString()} onValueChange={(v) => setSelectedMonth(Number(v))}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-36 md:w-32 h-10 md:h-9">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="z-50 bg-popover">
               {months.map((month, index) => (
                 <SelectItem key={month} value={(index + 1).toString()}>
                   {month}
@@ -76,10 +76,10 @@ export default function Dashboard() {
             </SelectContent>
           </Select>
           <Select value={selectedYear.toString()} onValueChange={(v) => setSelectedYear(Number(v))}>
-            <SelectTrigger className="w-24">
+            <SelectTrigger className="w-24 h-10 md:h-9">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="z-50 bg-popover">
               {years.map((year) => (
                 <SelectItem key={year} value={year.toString()}>
                   {year}
@@ -90,47 +90,47 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Money</CardTitle>
-            <TrendingUp className="h-4 w-4 text-success" />
+      <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Card className="animate-fade-in hover-scale">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">Total Money</CardTitle>
+            <TrendingUp className="h-5 w-5 md:h-4 md:w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               PKR {loading ? "..." : stats.totalMoney.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Income - Expenses for selected period
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">To Give</CardTitle>
-            <HandCoins className="h-4 w-4 text-warning" />
+        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.1s" }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">To Give</CardTitle>
+            <HandCoins className="h-5 w-5 md:h-4 md:w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               PKR {loading ? "..." : stats.toGive.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Total unpaid amount
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Debt</CardTitle>
-            <Receipt className="h-4 w-4 text-destructive" />
+        <Card className="animate-fade-in hover-scale sm:col-span-2 lg:col-span-1" style={{ animationDelay: "0.2s" }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">Debt</CardTitle>
+            <Receipt className="h-5 w-5 md:h-4 md:w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               PKR {loading ? "..." : stats.debt.toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Total not returned
             </p>
           </CardContent>

@@ -11,6 +11,7 @@ import { Pencil, Trash2, Plus, FileDown } from "lucide-react";
 import { z } from "zod";
 import { exportToCSV, exportToExcel } from "@/lib/exportUtils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { RecordCard } from "@/components/RecordCard";
 
 const outSchema = z.object({
   amount: z.number().positive("Amount must be positive"),
@@ -136,21 +137,21 @@ export default function Out() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Expenses</h1>
-          <p className="text-muted-foreground">Track your expenses</p>
+          <h1 className="text-2xl md:text-3xl font-bold">Expenses</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Track your expenses</p>
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" size="default" className="h-10 md:h-9">
                 <FileDown className="h-4 w-4 mr-2" />
-                Export
+                <span className="hidden sm:inline">Export</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="z-50 bg-popover">
               <DropdownMenuItem onClick={() => handleExport('csv')}>
                 Export as CSV
               </DropdownMenuItem>
@@ -161,48 +162,51 @@ export default function Out() {
           </DropdownMenu>
           <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) resetForm(); }}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="h-10 md:h-9">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Expense
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-md">
               <DialogHeader>
                 <DialogTitle>{editingId ? "Edit" : "Add"} Expense</DialogTitle>
                 <DialogDescription>Enter the expense details below</DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="amount">Amount</Label>
+                  <Label htmlFor="amount" className="text-base">Amount</Label>
                   <Input
                     id="amount"
                     type="number"
                     step="0.01"
+                    className="h-11 text-base"
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="reason">Reason</Label>
+                  <Label htmlFor="reason" className="text-base">Reason</Label>
                   <Input
                     id="reason"
+                    className="h-11 text-base"
                     value={formData.reason}
                     onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="date">Date</Label>
+                  <Label htmlFor="date" className="text-base">Date</Label>
                   <Input
                     id="date"
                     type="date"
+                    className="h-11 text-base"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full h-11 text-base">
                   {editingId ? "Update" : "Add"} Expense
                 </Button>
               </form>
@@ -211,7 +215,30 @@ export default function Out() {
         </div>
       </div>
 
-      <div className="rounded-lg border">
+      {/* Mobile Card View */}
+      <div className="block md:hidden space-y-3">
+        {records.map((record) => (
+          <RecordCard
+            key={record.id}
+            date={record.date}
+            amount={record.amount}
+            reason={record.reason}
+            type="expense"
+            canEdit={canEdit}
+            canDelete={canDelete}
+            onEdit={() => startEdit(record)}
+            onDelete={() => handleDelete(record.id)}
+          />
+        ))}
+        {records.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground">
+            No records found
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block rounded-lg border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

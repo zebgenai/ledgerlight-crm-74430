@@ -110,7 +110,10 @@ export default function Stock() {
   const onSubmit = async (values: FormData) => {
     if (!user) return;
 
-    const { error } = await supabase.from("stock").insert({
+    const totalCost = values.purchase_price * values.quantity;
+
+    // Insert stock item
+    const { error: stockError } = await supabase.from("stock").insert({
       item_name: values.item_name,
       description: values.description || null,
       quantity: values.quantity,
@@ -120,21 +123,39 @@ export default function Stock() {
       created_by: user.id,
     });
 
-    if (error) {
+    if (stockError) {
       toast({
         title: "Error",
-        description: error.message,
+        description: stockError.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Also add to "out" table to track the expense
+    const { error: outError } = await supabase.from("out").insert({
+      amount: totalCost,
+      reason: `Stock Purchase: ${values.item_name} (Qty: ${values.quantity})`,
+      date: values.purchase_date,
+      created_by: user.id,
+    });
+
+    if (outError) {
+      toast({
+        title: "Warning",
+        description: "Stock added but expense tracking failed",
         variant: "destructive",
       });
     } else {
       toast({
         title: "Success",
-        description: "Stock item added successfully",
+        description: `Stock item added! PKR ${totalCost.toFixed(2)} recorded as expense.`,
       });
-      form.reset();
-      setOpen(false);
-      fetchItems();
     }
+
+    form.reset();
+    setOpen(false);
+    fetchItems();
   };
 
   const handleDelete = async (id: string) => {

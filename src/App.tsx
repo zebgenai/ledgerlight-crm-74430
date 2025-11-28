@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import In from "./pages/In";
 import Out from "./pages/Out";
+import Stock from "./pages/Stock";
 import ToGive from "./pages/ToGive";
 import Debt from "./pages/Debt";
 import Reports from "./pages/Reports";
@@ -58,6 +59,13 @@ const App = () => (
                 <ProtectedRoute>
                   <Layout>
                     <Out />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/stock" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Stock />
                   </Layout>
                 </ProtectedRoute>
               } />

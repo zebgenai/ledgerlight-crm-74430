@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut, UserCog, User } from "lucide-react";
+import { LayoutDashboard, TrendingUp, TrendingDown, HandCoins, Receipt, FileText, LogOut, UserCog, User, Package } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -23,6 +23,7 @@ const menuItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "In", url: "/in", icon: TrendingUp },
   { title: "Out", url: "/out", icon: TrendingDown },
+  { title: "Stock", url: "/stock", icon: Package },
   { title: "To Give", url: "/to-give", icon: HandCoins },
   { title: "Debt", url: "/debt", icon: Receipt },
   { title: "Reports", url: "/reports", icon: FileText },

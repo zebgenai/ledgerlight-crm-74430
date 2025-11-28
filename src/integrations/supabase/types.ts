@@ -122,6 +122,42 @@ export type Database = {
         }
         Relationships: []
       }
+      stock: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          item_name: string
+          purchase_date: string
+          purchase_price: number
+          quantity: number
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          item_name: string
+          purchase_date?: string
+          purchase_price: number
+          quantity?: number
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          item_name?: string
+          purchase_date?: string
+          purchase_price?: number
+          quantity?: number
+          status?: string
+        }
+        Relationships: []
+      }
       to_give: {
         Row: {
           amount: number

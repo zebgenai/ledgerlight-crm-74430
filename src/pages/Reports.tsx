@@ -9,6 +9,8 @@ interface ReportStats {
   totalOut: number;
   toGive: number;
   debt: number;
+  stockValue: number;
+  stockCount: number;
 }
 
 export default function Reports() {
@@ -17,7 +19,9 @@ export default function Reports() {
     totalIn: 0, 
     totalOut: 0, 
     toGive: 0, 
-    debt: 0 
+    debt: 0,
+    stockValue: 0,
+    stockCount: 0
   });
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -33,17 +37,20 @@ export default function Reports() {
     const startDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-01`;
     const endDate = new Date(selectedYear, selectedMonth, 0).toISOString().split('T')[0];
 
-    const [inData, outData, toGiveData, debtData] = await Promise.all([
+    const [inData, outData, toGiveData, debtData, stockData] = await Promise.all([
       supabase.from("in").select("amount").gte("date", startDate).lte("date", endDate),
       supabase.from("out").select("amount").gte("date", startDate).lte("date", endDate),
       supabase.from("to_give").select("amount").eq("status", "Unpaid"),
       supabase.from("debt").select("amount").eq("status", "Not Returned"),
+      supabase.from("stock").select("purchase_price, quantity").eq("status", "In Stock"),
     ]);
 
     const totalIn = inData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
     const totalOut = outData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
     const totalToGive = toGiveData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
     const totalDebt = debtData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
+    const totalStockValue = stockData.data?.reduce((sum, item) => sum + (Number(item.purchase_price) * Number(item.quantity)), 0) || 0;
+    const totalStockCount = stockData.data?.reduce((sum, item) => sum + Number(item.quantity), 0) || 0;
 
     setStats({
       currentMoney: totalIn - totalOut,
@@ -51,6 +58,8 @@ export default function Reports() {
       totalOut,
       toGive: totalToGive,
       debt: totalDebt,
+      stockValue: totalStockValue,
+      stockCount: totalStockCount,
     });
     
     setLoading(false);
@@ -182,6 +191,20 @@ export default function Reports() {
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Current + Debt - To Give
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-primary/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Stock Value</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-primary">
+              PKR {loading ? "..." : stats.stockValue.toFixed(2)}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              {stats.stockCount} items in stock
             </p>
           </CardContent>
         </Card>

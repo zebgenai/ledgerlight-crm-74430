@@ -21,7 +21,7 @@ import logo from "@/assets/logo.png";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "In", url: "/in", icon: TrendingUp },
+  { title: "Cash", url: "/in", icon: TrendingUp },
   { title: "Out", url: "/out", icon: TrendingDown },
   { title: "Stock", url: "/stock", icon: Package },
   { title: "To Give", url: "/to-give", icon: HandCoins },

@@ -125,12 +125,12 @@ export default function In() {
       Reason: record.reason,
     }));
 
-    const filename = `income-${new Date().toISOString().split('T')[0]}`;
+    const filename = `cash-${new Date().toISOString().split('T')[0]}`;
     
     if (format === 'csv') {
       exportToCSV(exportData, filename);
     } else {
-      exportToExcel(exportData, filename, 'Income');
+      exportToExcel(exportData, filename, 'Cash');
     }
 
     toast({ title: "Success", description: `Data exported as ${format.toUpperCase()}` });
@@ -140,8 +140,8 @@ export default function In() {
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Income</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Track your income sources</p>
+          <h1 className="text-2xl md:text-3xl font-bold">Cash</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Track your cash income</p>
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
@@ -164,13 +164,13 @@ export default function In() {
             <DialogTrigger asChild>
               <Button className="h-10 md:h-9">
                 <Plus className="h-4 w-4 mr-2" />
-                Add Income
+                Add Cash
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-md">
               <DialogHeader>
-                <DialogTitle>{editingId ? "Edit" : "Add"} Income</DialogTitle>
-                <DialogDescription>Enter the income details below</DialogDescription>
+                <DialogTitle>{editingId ? "Edit" : "Add"} Cash</DialogTitle>
+                <DialogDescription>Enter the cash details below</DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -207,7 +207,7 @@ export default function In() {
                   />
                 </div>
                 <Button type="submit" className="w-full h-11 text-base">
-                  {editingId ? "Update" : "Add"} Income
+                  {editingId ? "Update" : "Add"} Cash
                 </Button>
               </form>
             </DialogContent>

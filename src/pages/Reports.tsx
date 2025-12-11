@@ -185,12 +185,12 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className={`text-3xl font-bold ${
-              stats.currentMoney + stats.debt - stats.toGive >= 0 ? "text-success" : "text-destructive"
+              stats.currentMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              PKR {loading ? "..." : (stats.currentMoney + stats.debt - stats.toGive).toFixed(2)}
+              PKR {loading ? "..." : (stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toFixed(2)}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              Current + Debt - To Give
+              Cash + Debt + Stock - To Give
             </p>
           </CardContent>
         </Card>

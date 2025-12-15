@@ -118,7 +118,10 @@ export default function Reports() {
               PKR {loading ? "..." : Math.round(stats.currentMoney).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              For selected period
+              Income-Expenses
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {loading ? "..." : `${Math.round(stats.totalIn).toLocaleString()} - ${Math.round(stats.totalOut).toLocaleString()}`}
             </p>
           </CardContent>
         </Card>
@@ -191,6 +194,9 @@ export default function Reports() {
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Cash+Debt+Stock-To Give
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {loading ? "..." : `${Math.round(stats.currentMoney).toLocaleString()} + ${Math.round(stats.debt).toLocaleString()} + ${Math.round(stats.stockValue).toLocaleString()} - ${Math.round(stats.toGive).toLocaleString()}`}
             </p>
           </CardContent>
         </Card>

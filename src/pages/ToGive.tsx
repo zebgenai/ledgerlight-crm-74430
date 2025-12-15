@@ -32,6 +32,8 @@ interface ToGiveRecord {
 export default function ToGive() {
   const [records, setRecords] = useState<ToGiveRecord[]>([]);
   const [open, setOpen] = useState(false);
+  
+  const totalAmount = records.filter(r => r.status === "Unpaid").reduce((sum, record) => sum + Number(record.amount), 0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ 
     person_name: "", 
@@ -169,7 +171,9 @@ export default function ToGive() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">To Give</h1>
-          <p className="text-muted-foreground">Track money you need to give</p>
+          <p className="text-muted-foreground">
+            Unpaid Total: <span className="font-semibold text-warning">PKR {Math.round(totalAmount).toLocaleString()}</span>
+          </p>
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
@@ -268,7 +272,7 @@ export default function ToGive() {
               <TableRow key={record.id} className={record.status === "Unpaid" ? "bg-warning/5" : ""}>
                 <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
                 <TableCell>{record.person_name}</TableCell>
-                <TableCell className="font-medium">PKR {Number(record.amount).toFixed(2)}</TableCell>
+                <TableCell className="font-medium">PKR {Math.round(Number(record.amount)).toLocaleString()}</TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                     record.status === "Unpaid" ? "bg-warning/20 text-warning" : "bg-success/20 text-success"

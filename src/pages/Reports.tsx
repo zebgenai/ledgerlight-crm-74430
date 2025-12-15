@@ -115,7 +115,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-success">
-              PKR {loading ? "..." : stats.currentMoney.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.currentMoney).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               For selected period
@@ -129,7 +129,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">
-              PKR {loading ? "..." : stats.totalIn.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.totalIn).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Total money received
@@ -143,7 +143,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-destructive">
-              PKR {loading ? "..." : stats.totalOut.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.totalOut).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Total money spent
@@ -157,7 +157,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-warning">
-              PKR {loading ? "..." : stats.toGive.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Unpaid obligations
@@ -171,7 +171,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-destructive">
-              PKR {loading ? "..." : stats.debt.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Not yet returned
@@ -187,7 +187,7 @@ export default function Reports() {
             <div className={`text-3xl font-bold ${
               stats.currentMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              PKR {loading ? "..." : (stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Cash + Debt + Stock - To Give
@@ -201,7 +201,7 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-primary">
-              PKR {loading ? "..." : stats.stockValue.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.stockValue).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               {stats.stockCount} items in stock

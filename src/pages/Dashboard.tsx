@@ -169,6 +169,9 @@ export default function Dashboard() {
             <p className="text-xs text-muted-foreground mt-1">
               Cash+Debt+Stock-To Give
             </p>
+            <p className="text-[10px] text-muted-foreground">
+              {loading ? "..." : `${Math.round(stats.totalMoney).toLocaleString()} + ${Math.round(stats.debt).toLocaleString()} + ${Math.round(stats.stockValue).toLocaleString()} - ${Math.round(stats.toGive).toLocaleString()}`}
+            </p>
           </CardContent>
         </Card>
       </div>

@@ -53,7 +53,7 @@ export default function Reports() {
     const totalStockCount = stockData.data?.reduce((sum, item) => sum + Number(item.quantity), 0) || 0;
 
     setStats({
-      currentMoney: totalIn - totalOut,
+      currentMoney: totalIn + totalOut,
       totalIn,
       totalOut,
       toGive: totalToGive,

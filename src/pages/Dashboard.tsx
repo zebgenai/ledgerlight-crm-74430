@@ -167,7 +167,7 @@ export default function Dashboard() {
               PKR {loading ? "..." : Math.round(stats.totalMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Cash + Debt + Stock - To Give
+              Cash+Debt+Stock-To Give
             </p>
           </CardContent>
         </Card>

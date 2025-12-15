@@ -42,7 +42,7 @@ export default function Dashboard() {
     const totalStock = stockData.data?.reduce((sum, item) => sum + (Number(item.purchase_price) * Number(item.quantity)), 0) || 0;
 
     setStats({
-      totalMoney: totalIn - totalOut,
+      totalMoney: totalIn + totalOut,
       toGive: totalToGive,
       debt: totalDebt,
       stockValue: totalStock,

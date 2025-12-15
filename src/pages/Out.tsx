@@ -29,6 +29,8 @@ interface OutRecord {
 export default function Out() {
   const [records, setRecords] = useState<OutRecord[]>([]);
   const [open, setOpen] = useState(false);
+  
+  const totalAmount = records.reduce((sum, record) => sum + Number(record.amount), 0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ amount: "", reason: "", date: new Date().toISOString().split('T')[0] });
   const { toast } = useToast();
@@ -141,7 +143,9 @@ export default function Out() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">Expenses</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Track your expenses</p>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Total: <span className="font-semibold text-destructive">PKR {Math.round(totalAmount).toLocaleString()}</span>
+          </p>
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
@@ -252,7 +256,7 @@ export default function Out() {
             {records.map((record) => (
               <TableRow key={record.id}>
                 <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
-                <TableCell className="text-destructive font-medium">-PKR {Number(record.amount).toFixed(2)}</TableCell>
+                <TableCell className="text-destructive font-medium">-PKR {Math.round(Number(record.amount)).toLocaleString()}</TableCell>
                 <TableCell>{record.reason}</TableCell>
                 {(canEdit || canDelete) && (
                   <TableCell className="text-right space-x-2">

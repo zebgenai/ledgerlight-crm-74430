@@ -434,7 +434,7 @@ export default function Stock() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base md:text-lg">
-            Total Stock Value: PKR {totalValue.toFixed(2)}
+            Total Stock Value: PKR {Math.round(totalValue).toLocaleString()}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -488,9 +488,9 @@ export default function Stock() {
                           )}
                         </TableCell>
                         <TableCell>{item.quantity}</TableCell>
-                        <TableCell>PKR {Number(item.purchase_price).toFixed(2)}</TableCell>
+                        <TableCell>PKR {Math.round(Number(item.purchase_price)).toLocaleString()}</TableCell>
                         <TableCell>
-                          PKR {(item.purchase_price * item.quantity).toFixed(2)}
+                          PKR {Math.round(item.purchase_price * item.quantity).toLocaleString()}
                         </TableCell>
                         <TableCell>{item.purchase_date}</TableCell>
                         <TableCell>

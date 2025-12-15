@@ -37,7 +37,7 @@ export function RecordCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2 mb-1">
               <span className={`text-xl font-bold ${amountColorClass}`}>
-                {prefix}PKR {Number(amount).toFixed(2)}
+                {prefix}PKR {Math.round(Number(amount)).toLocaleString()}
               </span>
               {status && (
                 <span className={`text-xs px-2 py-0.5 rounded-full ${

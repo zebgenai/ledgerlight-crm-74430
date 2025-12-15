@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { TrendingUp, TrendingDown, HandCoins, Receipt, Package } from "lucide-react";
+import { TrendingUp, TrendingDown, HandCoins, Receipt, Package, Scale } from "lucide-react";
 
 interface Stats {
   totalMoney: number;
@@ -94,7 +94,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Card className="animate-fade-in hover-scale">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
             <CardTitle className="text-sm md:text-base font-medium">Total Money</CardTitle>
@@ -102,7 +102,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : stats.totalMoney.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.totalMoney).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Income - Expenses for selected period
@@ -117,7 +117,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : stats.stockValue.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.stockValue).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Total in-stock items value
@@ -132,7 +132,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : stats.toGive.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Total unpaid amount
@@ -147,10 +147,27 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : stats.debt.toFixed(2)}
+              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Total not returned
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.4s" }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">Net Position</CardTitle>
+            <Scale className="h-5 w-5 md:h-4 md:w-4 text-primary" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-xl md:text-2xl font-bold ${
+              stats.totalMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
+            }`}>
+              PKR {loading ? "..." : Math.round(stats.totalMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Cash + Debt + Stock - To Give
             </p>
           </CardContent>
         </Card>

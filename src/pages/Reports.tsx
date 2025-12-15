@@ -121,7 +121,7 @@ export default function Reports() {
               Income-Expenses
             </p>
             <p className="text-xs text-muted-foreground">
-              {loading ? "..." : `${Math.round(stats.totalIn).toLocaleString()} - ${Math.round(stats.totalOut).toLocaleString()}`}
+              {loading ? "..." : `${Math.round(stats.totalIn).toLocaleString()} + ${Math.round(stats.totalOut).toLocaleString()}`}
             </p>
           </CardContent>
         </Card>

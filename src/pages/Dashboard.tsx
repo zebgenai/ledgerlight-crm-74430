@@ -162,7 +162,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className={`text-xl md:text-2xl font-bold ${
-              stats.totalMoney + stats.debt + stats.stockValue _ stats.toGive >= 0 ? "text-success" : "text-destructive"
+              stats.totalMoney + stats.debt + stats.stockValue + stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
               PKR {loading ? "..." : Math.round(stats.totalMoney + stats.debt + stats.stockValue + stats.toGive).toLocaleString()}
             </div>

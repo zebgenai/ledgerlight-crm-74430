@@ -188,15 +188,15 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className={`text-3xl font-bold ${
-              stats.currentMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
+              stats.currentMoney + stats.debt + stats.stockValue + stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              PKR {loading ? "..." : Math.round(stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
+              PKR {loading ? "..." : Math.round(stats.currentMoney + stats.debt + stats.stockValue + stats.toGive).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               Cash+Debt+Stock-To Give
             </p>
             <p className="text-xs text-muted-foreground">
-              {loading ? "..." : `${Math.round(stats.currentMoney).toLocaleString()} + ${Math.round(stats.debt).toLocaleString()} + ${Math.round(stats.stockValue).toLocaleString()} - ${Math.round(stats.toGive).toLocaleString()}`}
+              {loading ? "..." : `${Math.round(stats.currentMoney).toLocaleString()} + ${Math.round(stats.debt).toLocaleString()} + ${Math.round(stats.stockValue).toLocaleString()} + ${Math.round(stats.toGive).toLocaleString()}`}
             </p>
           </CardContent>
         </Card>

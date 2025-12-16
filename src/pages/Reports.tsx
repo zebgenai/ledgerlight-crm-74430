@@ -192,12 +192,6 @@ export default function Reports() {
             }`}>
               PKR {loading ? "..." : Math.round(stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
             </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Cash + Debt + Stock - To Give
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {loading ? "..." : `${Math.round(stats.currentMoney + stats.debt + stats.stockValue).toLocaleString()} - ${Math.round(stats.toGive).toLocaleString()}`}
-            </p>
           </CardContent>
         </Card>
 

@@ -109,89 +109,17 @@ export default function Reports() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="border-success/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Current Money</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-success">
-              PKR {loading ? "..." : Math.round(stats.currentMoney).toLocaleString()}
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Income-Expenses
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {loading ? "..." : `${Math.round(stats.totalIn).toLocaleString()} + ${Math.round(stats.totalOut).toLocaleString()}`}
-            </p>
-          </CardContent>
-        </Card>
-
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Total Income</CardTitle>
+            <CardTitle className="text-lg">Cash</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">
-              PKR {loading ? "..." : Math.round(stats.totalIn).toLocaleString()}
+              PKR {loading ? "..." : Math.round(stats.currentMoney).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              Total money received
+              Income - Expenses
             </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Total Expenses</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-destructive">
-              PKR {loading ? "..." : Math.round(stats.totalOut).toLocaleString()}
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Total money spent
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-warning/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Money To Give</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-warning">
-              PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Unpaid obligations
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-destructive/50">
-          <CardHeader>
-            <CardTitle className="text-lg">Money Taken</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-destructive">
-              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Not yet returned
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Net Position</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className={`text-3xl font-bold ${
-              stats.currentMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
-            }`}>
-              PKR {loading ? "..." : Math.round(stats.currentMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
-            </div>
           </CardContent>
         </Card>
 
@@ -205,6 +133,64 @@ export default function Reports() {
             </div>
             <p className="text-sm text-muted-foreground mt-2">
               {stats.stockCount} items in stock
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-warning/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Debt</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-warning">
+              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              Money to receive back
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-success/50">
+          <CardHeader>
+            <CardTitle className="text-lg">Total Money</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-success">
+              PKR {loading ? "..." : Math.round(stats.currentMoney + stats.stockValue + stats.debt).toLocaleString()}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              Cash + Stock + Debt
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-destructive/50">
+          <CardHeader>
+            <CardTitle className="text-lg">To Give</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-destructive">
+              PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              Unpaid obligations
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Net Position</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className={`text-3xl font-bold ${
+              (stats.currentMoney + stats.stockValue + stats.debt) - stats.toGive >= 0 ? "text-success" : "text-destructive"
+            }`}>
+              PKR {loading ? "..." : Math.round((stats.currentMoney + stats.stockValue + stats.debt) - stats.toGive).toLocaleString()}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              Total Money - To Give
             </p>
           </CardContent>
         </Card>

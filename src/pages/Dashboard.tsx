@@ -107,7 +107,7 @@ export default function Dashboard() {
       <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Card className="animate-fade-in hover-scale">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Total Money</CardTitle>
+            <CardTitle className="text-sm md:text-base font-medium">Cash</CardTitle>
             <TrendingUp className="h-5 w-5 md:h-4 md:w-4 text-success" />
           </CardHeader>
           <CardContent>
@@ -115,7 +115,7 @@ export default function Dashboard() {
               PKR {loading ? "..." : Math.round(stats.totalMoney).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Total Income - Expenses
+              Income - Expenses
             </p>
           </CardContent>
         </Card>
@@ -137,11 +137,41 @@ export default function Dashboard() {
 
         <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.2s" }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">To Give</CardTitle>
-            <HandCoins className="h-5 w-5 md:h-4 md:w-4 text-warning" />
+            <CardTitle className="text-sm md:text-base font-medium">Debt</CardTitle>
+            <Receipt className="h-5 w-5 md:h-4 md:w-4 text-warning" />
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
+              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Money to receive back
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.3s" }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">Total Money</CardTitle>
+            <TrendingUp className="h-5 w-5 md:h-4 md:w-4 text-success" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl md:text-2xl font-bold text-success">
+              PKR {loading ? "..." : Math.round(stats.totalMoney + stats.stockValue + stats.debt).toLocaleString()}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Cash + Stock + Debt
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.4s" }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
+            <CardTitle className="text-sm md:text-base font-medium">To Give</CardTitle>
+            <HandCoins className="h-5 w-5 md:h-4 md:w-4 text-destructive" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl md:text-2xl font-bold text-destructive">
               PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
@@ -150,32 +180,20 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.3s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Debt</CardTitle>
-            <Receipt className="h-5 w-5 md:h-4 md:w-4 text-destructive" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total not returned
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.4s" }}>
+        <Card className="animate-fade-in hover-scale sm:col-span-2 lg:col-span-5" style={{ animationDelay: "0.5s" }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
             <CardTitle className="text-sm md:text-base font-medium">Net Position</CardTitle>
             <Scale className="h-5 w-5 md:h-4 md:w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className={`text-xl md:text-2xl font-bold ${
-              stats.totalMoney + stats.debt + stats.stockValue - stats.toGive >= 0 ? "text-success" : "text-destructive"
+            <div className={`text-2xl md:text-3xl font-bold ${
+              (stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              PKR {loading ? "..." : Math.round(stats.totalMoney + stats.debt + stats.stockValue - stats.toGive).toLocaleString()}
+              PKR {loading ? "..." : Math.round((stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive).toLocaleString()}
             </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Total Money - To Give
+            </p>
           </CardContent>
         </Card>
       </div>

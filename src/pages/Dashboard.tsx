@@ -3,15 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { TrendingUp, TrendingDown, HandCoins, Receipt, Package, Scale } from "lucide-react";
+
 interface Stats {
-  cash: number;
+  totalMoney: number;
   toGive: number;
   debt: number;
   stockValue: number;
 }
 
 export default function Dashboard() {
-  const [stats, setStats] = useState<Stats>({ cash: 0, toGive: 0, debt: 0, stockValue: 0 });
+  const [stats, setStats] = useState<Stats>({ totalMoney: 0, toGive: 0, debt: 0, stockValue: 0 });
   const [selectedMonth, setSelectedMonth] = useState<string>("all");
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export default function Dashboard() {
     const totalStock = stockData.data?.reduce((sum, item) => sum + (Number(item.purchase_price) * Number(item.quantity)), 0) || 0;
 
     setStats({
-      cash: totalIn - totalOut,
+      totalMoney: totalIn + totalOut,
       toGive: totalToGive,
       debt: totalDebt,
       stockValue: totalStock,
@@ -111,7 +112,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold">
-              PKR {loading ? "..." : Math.round(stats.cash).toLocaleString()}
+              PKR {loading ? "..." : Math.round(stats.totalMoney).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Income - Expenses
@@ -156,7 +157,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl md:text-2xl font-bold text-success">
-              PKR {loading ? "..." : Math.round(stats.cash + stats.stockValue + stats.debt).toLocaleString()}
+              PKR {loading ? "..." : Math.round(stats.totalMoney + stats.stockValue + stats.debt).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Cash + Stock + Debt
@@ -186,9 +187,9 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className={`text-2xl md:text-3xl font-bold ${
-              (stats.cash + stats.stockValue + stats.debt) - stats.toGive >= 0 ? "text-success" : "text-destructive"
+              (stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive >= 0 ? "text-success" : "text-destructive"
             }`}>
-              PKR {loading ? "..." : Math.round((stats.cash + stats.stockValue + stats.debt) - stats.toGive).toLocaleString()}
+              PKR {loading ? "..." : Math.round((stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Total Money - To Give

@@ -118,7 +118,7 @@ export default function Reports() {
               PKR {loading ? "..." : Math.round(stats.currentMoney).toLocaleString()}
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              Income - Expenses
+              
             </p>
           </CardContent>
         </Card>

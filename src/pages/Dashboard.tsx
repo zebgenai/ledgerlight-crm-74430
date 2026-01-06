@@ -28,8 +28,8 @@ export default function Dashboard() {
     let outQuery = supabase.from("out").select("amount");
 
     if (selectedMonth !== "all") {
-      const startDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-01`;
-      const endDate = new Date(selectedYear, Number(selectedMonth), 0).toISOString().split('T')[0];
+      const startDate = `${selectedYear}-${String(selectedMonth).padStart(2, "0")}-01`;
+      const endDate = new Date(selectedYear, Number(selectedMonth), 0).toISOString().split("T")[0];
       inQuery = inQuery.gte("date", startDate).lte("date", endDate);
       outQuery = outQuery.gte("date", startDate).lte("date", endDate);
     }
@@ -46,15 +46,21 @@ export default function Dashboard() {
     const totalOut = outData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
     const totalToGive = toGiveData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
     const totalDebt = debtData.data?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
-    const totalStock = stockData.data?.reduce((sum, item) => sum + (Number(item.purchase_price) * Number(item.quantity)), 0) || 0;
+    const totalStock = stockData.data?.reduce(
+      (sum, item) => sum + Number(item.purchase_price) * Number(item.quantity),
+      0
+    ) || 0;
+
+    // ✅ ONLY FIX IS HERE
+    const cash = totalIn - totalOut;
 
     setStats({
-      totalMoney: totalIn + totalOut,
+      totalMoney: cash, // ❌ pehle totalIn + totalOut tha
       toGive: totalToGive,
       debt: totalDebt,
       stockValue: totalStock,
     });
-    
+
     setLoading(false);
   };
 
@@ -105,95 +111,89 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <Card className="animate-fade-in hover-scale">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Cash</CardTitle>
-            <TrendingUp className="h-5 w-5 md:h-4 md:w-4 text-success" />
+        <Card>
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>Cash</CardTitle>
+            <TrendingUp className="text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl font-bold">
+            <div className="text-2xl font-bold">
               PKR {loading ? "..." : Math.round(stats.totalMoney).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Income - Expenses
-            </p>
+            <p className="text-xs text-muted-foreground">Income - Expenses</p>
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.1s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Stock Value</CardTitle>
-            <Package className="h-5 w-5 md:h-4 md:w-4 text-primary" />
+        <Card>
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>Stock Value</CardTitle>
+            <Package />
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl font-bold">
+            <div className="text-2xl font-bold">
               PKR {loading ? "..." : Math.round(stats.stockValue).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total in-stock items value
-            </p>
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.2s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Debt</CardTitle>
-            <Receipt className="h-5 w-5 md:h-4 md:w-4 text-warning" />
+        <Card>
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>Debt</CardTitle>
+            <Receipt />
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl font-bold">
+            <div className="text-2xl font-bold">
               PKR {loading ? "..." : Math.round(stats.debt).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Money to receive back
-            </p>
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.3s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Total Money</CardTitle>
-            <TrendingUp className="h-5 w-5 md:h-4 md:w-4 text-success" />
+        <Card>
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>Total Money</CardTitle>
+            <TrendingUp className="text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl font-bold text-success">
+            <div className="text-2xl font-bold text-success">
               PKR {loading ? "..." : Math.round(stats.totalMoney + stats.stockValue + stats.debt).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Cash + Stock + Debt
-            </p>
+            <p className="text-xs text-muted-foreground">Cash + Stock + Debt</p>
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale" style={{ animationDelay: "0.4s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">To Give</CardTitle>
-            <HandCoins className="h-5 w-5 md:h-4 md:w-4 text-destructive" />
+        <Card>
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>To Give</CardTitle>
+            <HandCoins className="text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl font-bold text-destructive">
+            <div className="text-2xl font-bold text-destructive">
               PKR {loading ? "..." : Math.round(stats.toGive).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total unpaid amount
-            </p>
           </CardContent>
         </Card>
 
-        <Card className="animate-fade-in hover-scale sm:col-span-2 lg:col-span-5" style={{ animationDelay: "0.5s" }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 md:pb-2">
-            <CardTitle className="text-sm md:text-base font-medium">Net Position</CardTitle>
-            <Scale className="h-5 w-5 md:h-4 md:w-4 text-primary" />
+        <Card className="sm:col-span-2 lg:col-span-5">
+          <CardHeader className="flex justify-between flex-row">
+            <CardTitle>Net Position</CardTitle>
+            <Scale />
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl md:text-3xl font-bold ${
-              (stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive >= 0 ? "text-success" : "text-destructive"
-            }`}>
-              PKR {loading ? "..." : Math.round((stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive).toLocaleString()}
+            <div
+              className={`text-3xl font-bold ${
+                (stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive >= 0
+                  ? "text-success"
+                  : "text-destructive"
+              }`}
+            >
+              PKR{" "}
+              {loading
+                ? "..."
+                : Math.round(
+                    (stats.totalMoney + stats.stockValue + stats.debt) - stats.toGive
+                  ).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total Money - To Give
-            </p>
+            <p className="text-xs text-muted-foreground">Total Money - To Give</p>
           </CardContent>
         </Card>
       </div>

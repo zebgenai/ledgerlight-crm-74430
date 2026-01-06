@@ -51,11 +51,11 @@ export default function Dashboard() {
       0
     ) || 0;
 
-    // ✅ ONLY FIX IS HERE
-    const cash = totalIn - totalOut;
+    // Cash = Total Income (from "in" table)
+    const cash = totalIn;
 
     setStats({
-      totalMoney: cash, // ❌ pehle totalIn + totalOut tha
+      totalMoney: cash,
       toGive: totalToGive,
       debt: totalDebt,
       stockValue: totalStock,
